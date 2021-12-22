@@ -5,4 +5,4 @@ functions:
   b:
     lang: springboot
     handler: ./b
-    image: b:latest
+    image: registry.cn-shanghai.aliyuncs.com/libw/b:latest
