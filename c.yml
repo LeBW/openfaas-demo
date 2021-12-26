@@ -6,3 +6,6 @@ functions:
     lang: springboot
     handler: ./c
     image: registry.cn-shanghai.aliyuncs.com/libw/c:latest
+    build_args:
+      service_name: c
+      collector_url: skywalking-oap.skywalking:11800
