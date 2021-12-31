@@ -9,3 +9,6 @@ functions:
     build_args:
       service_name: a
       collector_url: skywalking-oap.skywalking:11800
+    environment:
+      logging.level.org.springframework.web: DEBUG
+      spring.mvc.log-request-details: true
