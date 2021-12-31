@@ -1,8 +1,11 @@
 package com.kylin.faas.javatmp;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+import org.apache.skywalking.apm.toolkit.trace.ActiveSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,12 @@ public class Handler {
     private final static String gatewayHost = "gateway.openfaas";
 
     @GetMapping("/**")
-    public ResponseEntity<String> print(@RequestParam("next") String next) {
+    public ResponseEntity<String> print(@RequestParam Map<String, String> reqParams) {
+        if (!addSpanTag(reqParams)) {
+            return ResponseEntity.badRequest().body("Request params parsed failed");
+        }
+
+        String next = reqParams.get("next");
         String url = "http://" + gatewayHost + ":8080/function/" + next;
         log.info("Get {}", url);
         try {
@@ -34,5 +42,17 @@ public class Handler {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.toString());
         }
+    }
+
+    private boolean addSpanTag(Map<String, String> reqParams) {
+        String json;
+        try {
+            json = new ObjectMapper().writeValueAsString(reqParams);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return false;
+        }
+        ActiveSpan.tag("reqParams", json);
+        return true;
     }
 }
