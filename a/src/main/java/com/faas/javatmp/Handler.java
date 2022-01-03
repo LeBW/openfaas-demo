@@ -48,7 +48,7 @@ public class Handler {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
             log.info("Response: {}", response);
             String myHost = InetAddress.getLocalHost().toString();
-            return ResponseEntity.ok(myHost + " -> " + response);
+            return ResponseEntity.ok(myHost + " -> " + response.getBody());
         } catch (RestClientException | UnknownHostException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.toString());
