@@ -1,4 +1,4 @@
-package com.kylin.faas.javatmp;
+package com.faas.javatmp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

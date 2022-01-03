@@ -1,4 +1,4 @@
-package com.kylin.faas.javatmp.config;
+package com.faas.javatmp.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

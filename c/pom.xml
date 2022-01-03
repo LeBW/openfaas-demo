@@ -8,7 +8,7 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.kylin.faas</groupId>
+	<groupId>se.fudan.faas</groupId>
 	<artifactId>java-tmp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>java-tmp</name>

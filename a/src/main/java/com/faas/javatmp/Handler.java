@@ -1,7 +1,10 @@
-package com.kylin.faas.javatmp;
+package com.faas.javatmp;
 
+import com.faas.javatmp.util.FaasUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import org.apache.skywalking.apm.toolkit.trace.ActiveSpan;
 import org.slf4j.Logger;
@@ -31,14 +34,22 @@ public class Handler {
             return ResponseEntity.badRequest().body("Request params parsed failed");
         }
 
+        log.info("Processing...");
+        try {
+            Thread.sleep(FaasUtils.getRandomNumber(500, 1000));
+        } catch (InterruptedException e) {
+            return ResponseEntity.badRequest().body("Interrupted when processing, " + e);
+        }
+        log.info("Process finished");
         String next = reqParams.get("next");
         String url = "http://" + gatewayHost + ":8080/function/" + next;
         log.info("Get {}", url);
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
             log.info("Response: {}", response);
-            return ResponseEntity.ok("success");
-        } catch (RestClientException e) {
+            String myHost = InetAddress.getLocalHost().toString();
+            return ResponseEntity.ok(myHost + " -> " + response);
+        } catch (RestClientException | UnknownHostException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.toString());
         }
@@ -55,4 +66,6 @@ public class Handler {
         ActiveSpan.tag("reqParams", json);
         return true;
     }
+
+
 }

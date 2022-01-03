@@ -1,7 +1,9 @@
-package com.kylin.faas.javatmp;
+package com.faas.javatmp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import org.apache.skywalking.apm.toolkit.trace.ActiveSpan;
 import org.slf4j.Logger;
@@ -21,7 +23,14 @@ public class Handler {
             return ResponseEntity.badRequest().body("Request params parsed failed");
         }
         log.info("Get invoked");
-        return ResponseEntity.ok("b");
+        String myHost = null;
+        try {
+            myHost = InetAddress.getLocalHost().toString();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Get Host failed, " + e);
+        }
+        return ResponseEntity.ok(myHost);
     }
 
     private boolean addSpanTag(Map<String, String> reqParams) {
