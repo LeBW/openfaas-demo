@@ -36,7 +36,7 @@ public class Handler {
 
         log.info("Processing...");
         try {
-            Thread.sleep(FaasUtils.getRandomNumber(500, 1000));
+            Thread.sleep(FaasUtils.getRandomNumber(1500, 2000));
         } catch (InterruptedException e) {
             return ResponseEntity.badRequest().body("Interrupted when processing, " + e);
         }

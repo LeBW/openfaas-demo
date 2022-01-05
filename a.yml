@@ -12,3 +12,5 @@ functions:
     environment:
       logging.level.org.springframework.web: DEBUG
       spring.mvc.log-request-details: true
+    labels:
+      com.openfaas.scale.zero: true

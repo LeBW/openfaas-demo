@@ -1,5 +1,6 @@
 package com.faas.javatmp;
 
+import com.faas.javatmp.utils.FaasUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.InetAddress;
@@ -26,7 +27,8 @@ public class Handler {
         String myHost = null;
         try {
             myHost = InetAddress.getLocalHost().toString();
-        } catch (UnknownHostException e) {
+            Thread.sleep(FaasUtils.getRandomNumber(1500, 2000));
+        } catch (UnknownHostException | InterruptedException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Get Host failed, " + e);
         }
